@@ -4,13 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/style.css">
     <script src="vendors/jquery.js"></script>
     <script src="scripts/client.js"></script>
     <title>Server Side Calculator</title>
 </head>
 <body>
     <h1>Server Side Calculator</h1>
-
+    <div id="inputs-div">
+        <input id ="firstNumIn" type="number">
+        <button id="plusButton">+</button>
+        <button id="minusButton">-</button>
+        <button id="multiplyButton">*</button>
+        <button id="divideButton">/</button>
+        <input id="secondNumIn" type="number">
+        <button id="equalsButton">=</button>
+        <button id="clearButton">C</button>
+    </div>
+    <h2 id="answer">answer</h2>
+    <ul id="historyList">
+        <li>old calc here</li>
+    </ul>
 </body>
 </html>
