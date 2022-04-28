@@ -2,8 +2,9 @@ $(document).ready(onReady);
 
 function onReady(){
     //click handlers
-    $('#submitCalcButton').on('click', submitCalc);
     $('.operandButton').on('click', submitOperand);
+    $('#submitCalcButton').on('click', submitCalc);
+    $('#clearButton').on('click', clearCalc);
 
     //display history function
 
@@ -20,7 +21,7 @@ function submitOperand(){
     // console.log('tobeCalculated before:', toBeCalculated);
     //Take submitted operand and store its id in toBeCalculated object
     toBeCalculated.operandClicked = this.id;
-    // console.log('toBeCalculated after:', toBeCalculated);
+    console.log('toBeCalculated after:', toBeCalculated);
 }
 
 function submitCalc(){
@@ -28,10 +29,13 @@ function submitCalc(){
     //store submitted numbers in toBeCalculated
     toBeCalculated.num1 = Number($('#firstNumIn').val());
     toBeCalculated.num2 = Number($('#secondNumIn').val());
-    // console.log('toBeCalculated after:', toBeCalculated);
-    //clear inputs
+    console.log('toBeCalculated after:', toBeCalculated);
 
     //use AJAX to send toBeCalculated to server with POST
+}
+
+function clearCalc(){
+    $('input').val('');
 }
 
 //GET calculation history from server
