@@ -14,14 +14,27 @@ const toBeCalculated = {
     num2: 'nothing yet',
     operandClicked: 'nothing yet'
 }
-//function to take submitted operand and store its id in toBeCalculated object
+
 function submitOperand(){
-    console.log('in submitOperand:', this.id);
-    console.log('tobeCalculated before:', toBeCalculated);
+    // console.log('in submitOperand:', this.id);
+    // console.log('tobeCalculated before:', toBeCalculated);
+    //Take submitted operand and store its id in toBeCalculated object
     toBeCalculated.operandClicked = this.id;
-    console.log('toBeCalculated after:', toBeCalculated);
+    // console.log('toBeCalculated after:', toBeCalculated);
 }
 
 function submitCalc(){
     console.log('in submitCalc:');
+    //store submitted numbers in toBeCalculated
+    toBeCalculated.num1 = Number($('#firstNumIn').val());
+    toBeCalculated.num2 = Number($('#secondNumIn').val());
+    // console.log('toBeCalculated after:', toBeCalculated);
+    //clear inputs
+
+    //use AJAX to send toBeCalculated to server with POST
 }
+
+//GET calculation history from server
+// display calculation history in DOM
+    //clear ul
+    //loop through array of history, display in ul on DOM
