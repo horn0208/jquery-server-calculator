@@ -27,8 +27,8 @@ function submitOperand(){
 function submitCalc(){
     console.log('in submitCalc:');
     //store submitted numbers in toBeCalculated
-    toBeCalculated.num1 = Number($('#firstNumIn').val());
-    toBeCalculated.num2 = Number($('#secondNumIn').val());
+    toBeCalculated.num1 = $('#firstNumIn').val();
+    toBeCalculated.num2 = $('#secondNumIn').val();
     console.log('toBeCalculated after:', toBeCalculated);
     //use AJAX to send toBeCalculated to server with POST
     $.ajax({

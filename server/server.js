@@ -19,10 +19,18 @@ app.listen(port,()=>{
 //calculation functions
 function calculateIt(toCalc){
     console.log('in calculateIt, toCalc:', toCalc);
+    let answer;
+    //funcs to do math based on 'operandClicked'
     if(toCalc.operandClicked === 'plusButton'){
-        let answer = Number(toCalc.num1) + Number(toCalc.num2);
-        console.log('answer', answer);
+        answer = Number(toCalc.num1) + Number(toCalc.num2);
+    } else if (toCalc.operandClicked === 'minusButton'){
+        answer = Number(toCalc.num1) - Number(toCalc.num2);
+    } else if (toCalc.operandClicked === 'multiplyButton'){
+        answer = Number(toCalc.num1) * Number(toCalc.num2);
+    } else if (toCalc.operandClicked === 'divideButton'){
+        answer = Number(toCalc.num1) / Number(toCalc.num2);
     }
+    console.log('answer', answer);
 }
 
 //POST route from client
@@ -31,7 +39,6 @@ router.post('/', (req, res)=>{
     //store req.body object in a variable and pass it to calculatIt function
     let toCalc = req.body;
     calculateIt(toCalc);
-
     //push into history array
     //run calculation function
     res.sendStatus(200);
