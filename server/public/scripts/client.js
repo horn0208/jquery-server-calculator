@@ -21,7 +21,7 @@ function submitOperand(){
     // console.log('tobeCalculated before:', toBeCalculated);
     //Take submitted operand and store its id in toBeCalculated object
     toBeCalculated.operandClicked = this.id;
-    console.log('toBeCalculated after:', toBeCalculated);
+    // console.log('toBeCalculated after:', toBeCalculated);
 }
 
 function submitCalc(){
@@ -30,8 +30,19 @@ function submitCalc(){
     toBeCalculated.num1 = Number($('#firstNumIn').val());
     toBeCalculated.num2 = Number($('#secondNumIn').val());
     console.log('toBeCalculated after:', toBeCalculated);
-
     //use AJAX to send toBeCalculated to server with POST
+    $.ajax({
+        //make a POST request to create a new calc
+        method: 'POST',
+        url: '/calc',
+        data: toBeCalculated
+    }).then(function(response){
+        console.log('back from POST:', response);
+        //run functions to update DOM: history ul and calc result
+    }).catch(function(err){
+        console.log(err);
+        alert('error submitting calculation - in POST');
+    })
 }
 
 function clearCalc(){
