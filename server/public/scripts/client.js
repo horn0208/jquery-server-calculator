@@ -5,9 +5,8 @@ function onReady(){
     $('.operandButton').on('click', submitOperand);
     $('#submitCalcButton').on('click', submitCalc);
     $('#clearButton').on('click', clearCalc);
-
     //display history function
-
+    historyGet();
 }
 //create an object to hold input vals.
 const toBeCalculated = {
@@ -41,6 +40,7 @@ function submitCalc(){
         //TO DO----run function to update history ul 
         //TO DO----run function to display calc result
         answerGet();
+        historyGet();
     }).catch(function(err){
         console.log(err);
         alert('error submitting calculation via POST');
@@ -59,19 +59,31 @@ function answerGet(){
         url: '/answer'
     }).then(function(response){
         // console.log('response from GET /answer:', response);
-        //TO DO ---- display on DOM
+        // display answer on DOM
         let el = $('#answer');
         el.empty();
         el.append(response);
     }).catch(function(err){
         console.log('error in GET /answer:', err);
-        alert('error GETting answer');
-    });
-    
+        alert('error getting answer');
+    }); 
 }
 
+function historyGet(){
+    //GET calculation history from server
+    $.ajax({
+        method: 'GET',
+        url: '/answer/hist'
+    }).then(function(response){
+        console.log('back from GET /answer/hist:', response);
+        //run function to display calc history on DOM
+        
+    }).catch(function(err){
+        console.log('error in GET /answer/hist:', err);
+        alert('error getting calculation history');
+    })
+}
 
-//GET calculation history from server
-// display calculation history in DOM
+//display calc history on DOM
     //clear ul
     //loop through array of history, display in ul on DOM

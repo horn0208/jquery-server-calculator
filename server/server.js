@@ -47,11 +47,15 @@ router.post('/', (req, res)=>{
     res.sendStatus(200);
 });
 
+router.get('/hist', (req, res)=>{
+    //sending back calculation history object
+    res.send(calcHistory);
+});
+
 router.get('/', (req, res)=>{
     //sending back answer variable as a string since express hates numbers
     res.send(answer.toString());
-})
-
+});
 
 //export
 module.exports = router;
