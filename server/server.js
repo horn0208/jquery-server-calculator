@@ -48,7 +48,6 @@ router.post('/', (req, res)=>{
 });
 
 router.get('/', (req, res)=>{
-    console.log('in router.get /answer');
     //sending back answer variable as a string since express hates numbers
     res.send(answer.toString());
 })

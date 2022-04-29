@@ -58,9 +58,11 @@ function answerGet(){
         method: 'GET',
         url: '/answer'
     }).then(function(response){
-        console.log('response from GET /answer:', response);
+        // console.log('response from GET /answer:', response);
         //TO DO ---- display on DOM
-
+        let el = $('#answer');
+        el.empty();
+        el.append(response);
     }).catch(function(err){
         console.log('error in GET /answer:', err);
         alert('error GETting answer');
