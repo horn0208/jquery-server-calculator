@@ -36,10 +36,10 @@ function submitCalc(){
         url: '/calc',
         data: toBeCalculated
     }).then(function(response){
-        console.log('back from POST:', response);
-        //TO DO----run function to update history ul 
-        //TO DO----run function to display calc result
+        // console.log('back from POST:', response);
+        //run function to display calc result
         answerGet();
+        //run function to update history ul 
         historyGet();
     }).catch(function(err){
         console.log(err);
@@ -77,13 +77,21 @@ function historyGet(){
     }).then(function(response){
         console.log('back from GET /answer/hist:', response);
         //run function to display calc history on DOM
-        
+        displayHist(response);
     }).catch(function(err){
         console.log('error in GET /answer/hist:', err);
         alert('error getting calculation history');
-    })
+    });
 }
 
 //display calc history on DOM
+function displayHist(response){
+    let el = $('#historyList')
     //clear ul
+    el.empty();
     //loop through array of history, display in ul on DOM
+    for (let i=0; i<response.length; i++){
+        el.append(`<li>${response[i].num1} ${response[i].operandClicked} ${response[i].num2}</li>`);
+    }
+}
+
