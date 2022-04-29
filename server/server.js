@@ -7,6 +7,7 @@ const router = express.Router();
 app.use(express.static('./server/public'));
 app.use(bodyParser.urlencoded({extended: true})); // needed for POST
 app.use('/calc', router);
+app.use('/answer', router);
 
 //globals
 const calcHistory = []; //stores all previous calculations
@@ -15,25 +16,25 @@ const port = 5001;
 //spin up server
 app.listen(port,()=>{
     console.log('server up on:', port);
-})
+});
 
 //calculation function
 function calculateIt(toCalc){
-    console.log('in calculateIt, toCalc:', toCalc);
+    // console.log('in calculateIt, toCalc:', toCalc);
     //funcs to do math based on 'operandClicked' and store result in answer variable
-    if(toCalc.operandClicked === 'plusButton'){
+    if(toCalc.operandClicked === '+'){
         answer = Number(toCalc.num1) + Number(toCalc.num2);
-    } else if (toCalc.operandClicked === 'minusButton'){
+    } else if (toCalc.operandClicked === '-'){
         answer = Number(toCalc.num1) - Number(toCalc.num2);
-    } else if (toCalc.operandClicked === 'multiplyButton'){
+    } else if (toCalc.operandClicked === '*'){
         answer = Number(toCalc.num1) * Number(toCalc.num2);
-    } else if (toCalc.operandClicked === 'divideButton'){
+    } else if (toCalc.operandClicked === '/'){
         answer = Number(toCalc.num1) / Number(toCalc.num2);
     }
     console.log('answer', answer);
-}
+};
 
-//POST route from client
+//POST route from client containing toBeCalculated object
 router.post('/', (req, res)=>{
     // console.log('POST in server:', req.body);
     //store req.body object in a variable and pass it to calculatIt function
@@ -42,9 +43,16 @@ router.post('/', (req, res)=>{
     //push into history array
     calcHistory.push(toCalc);
     console.log('calcHistory:', calcHistory);
-    //run calculation function
+    //send success status to client
     res.sendStatus(200);
+});
+
+router.get('/', (req, res)=>{
+    console.log('in router.get /answer');
+    //sending back answer variable as a string since express hates numbers
+    res.send(answer.toString());
 })
+
 
 //export
 module.exports = router;

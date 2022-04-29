@@ -38,16 +38,36 @@ function submitCalc(){
         data: toBeCalculated
     }).then(function(response){
         console.log('back from POST:', response);
-        //run functions to update DOM: history ul and calc result
+        //TO DO----run function to update history ul 
+        //TO DO----run function to display calc result
+        answerGet();
     }).catch(function(err){
         console.log(err);
-        alert('error submitting calculation - in POST');
-    })
+        alert('error submitting calculation via POST');
+    });
 }
 
 function clearCalc(){
     $('input').val('');
 }
+
+function answerGet(){
+    console.log('in displayAnswer');
+    //GET calc answer from server
+    $.ajax({
+        method: 'GET',
+        url: '/answer'
+    }).then(function(response){
+        console.log('response from GET /answer:', response);
+        //TO DO ---- display on DOM
+
+    }).catch(function(err){
+        console.log('error in GET /answer:', err);
+        alert('error GETting answer');
+    });
+    
+}
+
 
 //GET calculation history from server
 // display calculation history in DOM
