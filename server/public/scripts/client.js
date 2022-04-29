@@ -10,9 +10,9 @@ function onReady(){
 }
 //create an object to hold input vals.
 const toBeCalculated = {
-    num1: 'nothing yet',
-    num2: 'nothing yet',
-    operandClicked: 'nothing yet'
+    num1: 'default',
+    num2: 'default',
+    operandClicked: 'default'
 }
 
 function submitOperand(){
@@ -49,6 +49,9 @@ function submitCalc(){
 
 function clearCalc(){
     $('input').val('');
+    toBeCalculated.num1 = 'default';
+    toBeCalculated.num2 = 'default';
+    toBeCalculated.operandClicked = 'default';
 }
 
 function answerGet(){
