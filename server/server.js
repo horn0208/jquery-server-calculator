@@ -10,17 +10,17 @@ app.use('/calc', router);
 
 //globals
 const calcHistory = []; //stores all previous calculations
+let answer;
 const port = 5001;
 //spin up server
 app.listen(port,()=>{
     console.log('server up on:', port);
 })
 
-//calculation functions
+//calculation function
 function calculateIt(toCalc){
     console.log('in calculateIt, toCalc:', toCalc);
-    let answer;
-    //funcs to do math based on 'operandClicked'
+    //funcs to do math based on 'operandClicked' and store result in answer variable
     if(toCalc.operandClicked === 'plusButton'){
         answer = Number(toCalc.num1) + Number(toCalc.num2);
     } else if (toCalc.operandClicked === 'minusButton'){
@@ -40,6 +40,8 @@ router.post('/', (req, res)=>{
     let toCalc = req.body;
     calculateIt(toCalc);
     //push into history array
+    calcHistory.push(toCalc);
+    console.log('calcHistory:', calcHistory);
     //run calculation function
     res.sendStatus(200);
 })
