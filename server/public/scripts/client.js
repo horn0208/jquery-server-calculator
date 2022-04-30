@@ -33,8 +33,17 @@ function collectNums(){
     console.log('allInput', allInput);
     //display allInput on DOM
     $('#calcBox').append(newNum);
-
 }
+
+function storeCollected(){
+    //split allInput string into array containing [number, operand, number]
+    let inputArray = allInput.split(' ');
+    //assign values to toBeCalculated object based on array position
+    toBeCalculated.num1 = inputArray[0];
+    toBeCalculated.num2 = inputArray[2];
+    toBeCalculated.operandClicked = inputArray[1];
+}
+
 // // BASE MODE ONLY
 // function submitOperand(){
 //     //Take submitted button and store its id in toBeCalculated object
@@ -42,12 +51,16 @@ function collectNums(){
 //     // console.log('toBeCalculated after:', toBeCalculated);
 // }
 
-function submitCalc(){//will need to edit for stretch
+function submitCalc(){
     console.log('in submitCalc:');
-    //store submitted numbers in toBeCalculated
-    toBeCalculated.num1 = $('#firstNumIn').val();
-    toBeCalculated.num2 = $('#secondNumIn').val();
-    console.log('toBeCalculated after:', toBeCalculated);
+    //store submitted numbers in toBeCalculated (base mode)
+    // toBeCalculated.num1 = $('#firstNumIn').val();
+    // toBeCalculated.num2 = $('#secondNumIn').val();
+    // console.log('toBeCalculated after:', toBeCalculated);
+
+    //store submitted numbers in toBeCalculated (stretch mode)
+    storeCollected();
+
     //use AJAX to send toBeCalculated to server with POST
     $.ajax({
         //make a POST request to create a new calc
