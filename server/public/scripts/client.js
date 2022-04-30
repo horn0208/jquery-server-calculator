@@ -12,21 +12,36 @@ function onReady(){
 }
 //create an object to hold input vals.
 const toBeCalculated = {
-    num1: 'default',
-    num2: 'default',
-    operandClicked: 'default'
+    num1: '',
+    num2: '',
+    operandClicked: ''
 }
 //create varaiable to hold input from number and operand buttons (for stretch feat.)
 let allInput = '';
+//create variable to track whether a .numButton has been clicked yet--
+//to make everything work if first number is negative since - is an .operandButton
+let numClickCount = 0;
+//counter to make sure only one operand clicked (not including negative first number)
+let operandCount = 0;
 
 function collectNums(){
     let newNum;
-    //if the button clicked was for an operand, add a space before and after and store as newNum
-    if (this.className === 'operandButton'){
-        newNum = ` ${this.id} `;
-    } else {
+    if(this.className === 'numButton'){
+        //track how many times numButton has been clicked in current calculation
+        numClickCount++;
+        //store number button id as newNum
         newNum = this.id;
-    };
+    } else if (this.id === '-' && numClickCount === 0) {
+        //if calculation starts with a negative, store - as newNum
+        newNum = this.id;
+    } else if (this.className === 'operandButton' && numClickCount !== 0 && operandCount === 0){
+        //if the button clicked was for an operand, add a space before and after and store as newNum
+        newNum = ` ${this.id} `;
+        operandCount++;
+    } else {
+        alert('Invalid input. Please try again.');
+        clearCalc();
+    }
     //add newNum to allInput string
     allInput += newNum;
     // console.log('allInput', allInput);
@@ -37,6 +52,7 @@ function collectNums(){
 function storeCollected(){
     //split allInput string into array containing [number, operand, number]
     let inputArray = allInput.split(' ');
+    console.log('inputArray:', inputArray);
     //assign values to toBeCalculated object based on array position
     toBeCalculated.num1 = inputArray[0];
     toBeCalculated.num2 = inputArray[2];
@@ -55,29 +71,49 @@ function submitCalc(){
     //store submitted numbers in toBeCalculated (base mode)
     // toBeCalculated.num1 = $('#firstNumIn').val();
     // toBeCalculated.num2 = $('#secondNumIn').val();
-    // console.log('toBeCalculated after:', toBeCalculated);
 
     //store submitted numbers in toBeCalculated (stretch mode)
     storeCollected();
-
-    //use AJAX to send toBeCalculated to server with POST
-    $.ajax({
-        //make a POST request to create a new calc
-        method: 'POST',
-        url: '/calc',
-        data: toBeCalculated
-    }).then(function(response){
-        // console.log('back from POST:', response);
-        //run function to display calc result
-        answerGet();
-        //run function to update history ul 
-        historyGet();
-    }).catch(function(err){
-        console.log(err);
-        alert('error submitting calculation via POST');
-    });
-    //stretch mode: clear submitted calc from output box and toBeCalculated object
-    clearCalc();
+    //Check data quality before sending to server for calculation
+    //there has to be a better way to do this! So many conditionals.
+    if (toBeCalculated.operandClicked !== '+' && 
+        toBeCalculated.operandClicked !== '-' && 
+        toBeCalculated.operandClicked !== '*' && 
+        toBeCalculated.operandClicked !== '/') {
+            alert('Operand is missing or not in the correct spot. Re-enter calculation');
+            clearCalc();
+    } else if (toBeCalculated.num1 === '' || 
+        toBeCalculated.num1 === '-' || 
+        toBeCalculated.num1 === '+' || 
+        toBeCalculated.num1 === '*' ||
+        toBeCalculated.num1 === '/' || 
+        toBeCalculated.num2 === '' || 
+        toBeCalculated.num2 === '-' || 
+        toBeCalculated.num2 === '+' || 
+        toBeCalculated.num2 === '*' ||
+        toBeCalculated.num2 === '/'){
+            alert('Re-enter calculation with the following format: number1 operator number2');
+            clearCalc();
+    } else {
+        //PASSED QC Checks. Send toBeCalculated to server
+        $.ajax({
+            //make a POST request to create a new calc
+            method: 'POST',
+            url: '/calc',
+            data: toBeCalculated
+        }).then(function(response){
+            // console.log('back from POST:', response);
+            //run function to display calc result
+            answerGet();
+            //run function to update history ul 
+            historyGet();
+        }).catch(function(err){
+            console.log(err);
+            alert('error submitting calculation via POST');
+        });
+        //stretch mode: clear submitted calc from output box and toBeCalculated object
+        clearCalc();
+    }
 }
 
 function clearCalc(){
@@ -90,6 +126,9 @@ function clearCalc(){
     allInput = '';
     //clear calcBox on DOM
     $('#calcBox').val('');
+    //reset numClickCount and operandCount to 0
+    numClickCount = 0;
+    operandCount = 0;
 }
 
 function answerGet(){
