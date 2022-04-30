@@ -27,10 +27,9 @@ function collectNums(){
     } else {
         newNum = this.id;
     };
-    console.log('newNum', newNum);
     //add newNum to allInput string
     allInput += newNum;
-    console.log('allInput', allInput);
+    // console.log('allInput', allInput);
     //display allInput on DOM
     $('#calcBox').append(newNum);
 }
@@ -77,13 +76,20 @@ function submitCalc(){
         console.log(err);
         alert('error submitting calculation via POST');
     });
+    //stretch mode: clear submitted calc from output box and toBeCalculated object
+    clearCalc();
 }
 
 function clearCalc(){
-    $('input').val('');
+    // $('input').val('');
+    //reset values in object
     toBeCalculated.num1 = 'default';
     toBeCalculated.num2 = 'default';
     toBeCalculated.operandClicked = 'default';
+    //clear allInput string
+    allInput = '';
+    //clear calcBox on DOM
+    $('#calcBox').val('');
 }
 
 function answerGet(){
