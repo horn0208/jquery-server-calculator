@@ -31,7 +31,7 @@ function collectNums(){
         numClickCount++;
         //store number button id as newNum
         newNum = this.id;
-    } else if (this.id === '-' && numClickCount === 0) {
+    } else if (this.id === '-' && numClickCount === 0 && operandCount === 0) {
         //if calculation starts with a negative, store - as newNum
         newNum = this.id;
     } else if (this.className === 'operandButton' && numClickCount !== 0 && operandCount === 0){
@@ -41,12 +41,14 @@ function collectNums(){
     } else {
         alert('Invalid input. Please try again.');
         clearCalc();
-    }
+    };
+    //if newNum has a value (is not undefined), add to the string
+    if (newNum){
     //add newNum to allInput string
     allInput += newNum;
     // console.log('allInput', allInput);
     //display allInput on DOM
-    $('#calcBox').append(newNum);
+    $('#calcBox').append(newNum);}
 }
 
 function storeCollected(){
@@ -75,7 +77,7 @@ function submitCalc(){
     //store submitted numbers in toBeCalculated (stretch mode)
     storeCollected();
     //Check data quality before sending to server for calculation
-    //there has to be a better way to do this! So many conditionals.
+    // these might be redundant after adding conditionals to collectNums
     if (toBeCalculated.operandClicked !== '+' && 
         toBeCalculated.operandClicked !== '-' && 
         toBeCalculated.operandClicked !== '*' && 
@@ -119,9 +121,9 @@ function submitCalc(){
 function clearCalc(){
     // $('input').val('');
     //reset values in object
-    toBeCalculated.num1 = 'default';
-    toBeCalculated.num2 = 'default';
-    toBeCalculated.operandClicked = 'default';
+    toBeCalculated.num1 = '';
+    toBeCalculated.num2 = '';
+    toBeCalculated.operandClicked = '';
     //clear allInput string
     allInput = '';
     //clear calcBox on DOM
