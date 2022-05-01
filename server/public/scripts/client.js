@@ -8,6 +8,7 @@ function onReady(){
     $('#clearButton').on('click', clearCalc);
     $('.numButton').on('click', collectNums);
     $('#clearHistButton').on('click', clearHist);
+    $('#historyList').on('click', '.histItem', histItemCalc);
     //display history function
     historyGet();
 }
@@ -49,7 +50,6 @@ function collectNums(){
     //display allInput on DOM
     $('#calcBox').append(newNum);}
 }
-
 function storeCollected(){
     //split allInput string into array containing [number, operand, number]
     let inputArray = allInput.split(' ');
@@ -59,14 +59,12 @@ function storeCollected(){
     toBeCalculated.num2 = inputArray[2];
     toBeCalculated.operandClicked = inputArray[1];
 }
-
 // // BASE MODE ONLY
 // function submitOperand(){
 //     //Take submitted button and store its id in toBeCalculated object
 //     toBeCalculated.operandClicked = this.id;
 //     // console.log('toBeCalculated after:', toBeCalculated);
 // }
-
 function submitCalc(){
     console.log('in submitCalc:');
     //store submitted numbers in toBeCalculated (base mode)
@@ -109,7 +107,6 @@ function submitCalc(){
         clearCalc();
     }
 }
-
 function clearCalc(){
     // $('input').val('');
     //reset values in object
@@ -124,7 +121,6 @@ function clearCalc(){
     numClickCount = 0;
     operandCount = 0;
 }
-
 function answerGet(){
     console.log('in displayAnswer');
     //GET calc answer from server
@@ -142,7 +138,6 @@ function answerGet(){
         alert('error getting answer');
     }); 
 }
-
 function historyGet(){
     //GET calculation history from server
     $.ajax({
@@ -157,7 +152,6 @@ function historyGet(){
         alert('error getting calculation history');
     });
 }
-
 function clearHist(){
     //DELETE calculation history from server
     $.ajax({
@@ -174,7 +168,6 @@ function clearHist(){
         alert('error deleting calculation history');
     });
 }
-
 //display calc history on DOM
 function displayHist(response){
     let el = $('#historyList')
@@ -182,7 +175,14 @@ function displayHist(response){
     el.empty();
     //loop through array of history, display in ul on DOM
     for (let i=0; i<response.length; i++){
-        el.append(`<li>${response[i].num1} ${response[i].operandClicked} ${response[i].num2}</li>`);
+        el.append(`<li class="histItem">${response[i].num1} ${response[i].operandClicked} ${response[i].num2}</li>`);
+// data-index="${i}"
     }
 }
-
+function histItemCalc(){
+    // store string for repeat calculation in allInput
+    allInput = $(this).text();
+    //display repeat calculation in calcBox on DOM:
+    $('#calcBox').empty();
+    $('#calcBox').append(allInput);
+}
