@@ -10,13 +10,13 @@ function onReady(){
     //display history function
     historyGet();
 }
-//create an object to hold input vals.
+//object to hold input vals
 const toBeCalculated = {
     num1: '',
     num2: '',
     operandClicked: ''
 }
-//create varaiable to hold input from number and operand buttons (for stretch feat.)
+//variable to hold input from number and operand buttons (for stretch feat.)
 let allInput = '';
 //create variable to track whether a .numButton has been clicked yet--
 //to make everything work if first number is negative since - is an .operandButton
@@ -31,8 +31,9 @@ function collectNums(){
         numClickCount++;
         //store number button id as newNum
         newNum = this.id;
-    } else if (this.id === '-' && numClickCount === 0 && operandCount === 0) {
-        //if calculation starts with a negative, store - as newNum
+    } else if (this.id === '-' && (!allInput || allInput.charAt(allInput.length-1)===' ')){
+        //if minus was clicked for a negative number (not as an operand): 
+        //no spaces added and no incrementing operandCount
         newNum = this.id;
     } else if (this.className === 'operandButton' && numClickCount !== 0 && operandCount === 0){
         //if the button clicked was for an operand, add a space before and after and store as newNum
@@ -42,11 +43,9 @@ function collectNums(){
         alert('Invalid input. Please try again.');
         clearCalc();
     };
-    //if newNum has a value (is not undefined), add to the string
+    //if newNum has a value (is not undefined), add to allInput string
     if (newNum){
-    //add newNum to allInput string
     allInput += newNum;
-    // console.log('allInput', allInput);
     //display allInput on DOM
     $('#calcBox').append(newNum);}
 }
