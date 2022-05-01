@@ -165,8 +165,10 @@ function clearHist(){
         url: '/answer/hist'
     }).then(function(response){
         console.log('back from DELETE /answer/hist:', response);
-        //re-run function to display calc history on DOM
-
+        //Display empty calc history on DOM
+        historyGet();
+        //clear last calculation's answer from DOM:
+        $('#answer').empty();
     }).catch(function(err){
         console.log('error in DELETE /answer/hist:', err);
         alert('error deleting calculation history');

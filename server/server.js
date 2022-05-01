@@ -60,7 +60,8 @@ router.get('/', (req, res)=>{
 router.delete('/hist', (req, res)=>{
     console.log('in DELETE /answer/hist');
     //empty history array
-
+    calcHistory.length = 0;
+    console.log('emptied calcHistory:', calcHistory);
     res.sendStatus(200);
 })
 
