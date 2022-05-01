@@ -57,5 +57,12 @@ router.get('/', (req, res)=>{
     res.send(answer.toString());
 });
 
+router.delete('/hist', (req, res)=>{
+    console.log('in DELETE /answer/hist');
+    //empty history array
+
+    res.sendStatus(200);
+})
+
 //export
 module.exports = router;

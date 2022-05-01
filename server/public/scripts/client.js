@@ -7,6 +7,7 @@ function onReady(){
     $('#submitCalcButton').on('click', submitCalc);//will need to edit for stretch
     $('#clearButton').on('click', clearCalc);
     $('.numButton').on('click', collectNums);
+    $('#clearHistButton').on('click', clearHist);
     //display history function
     historyGet();
 }
@@ -19,9 +20,8 @@ const toBeCalculated = {
 //variable to hold input from number and operand buttons (for stretch feat.)
 let allInput = '';
 //create variable to track whether a .numButton has been clicked yet--
-//to make everything work if first number is negative since - is an .operandButton
 let numClickCount = 0;
-//counter to make sure only one operand clicked (not including negative first number)
+//counter to track whether operand was clicked (not including negative numbers)
 let operandCount = 0;
 
 function collectNums(){
@@ -76,7 +76,6 @@ function submitCalc(){
     //store submitted numbers in toBeCalculated (stretch mode)
     storeCollected();
     //Check data quality before sending to server for calculation
-    // these might be redundant after adding conditionals to collectNums
     if (toBeCalculated.operandClicked !== '+' && 
         toBeCalculated.operandClicked !== '-' && 
         toBeCalculated.operandClicked !== '*' && 
@@ -85,14 +84,8 @@ function submitCalc(){
             clearCalc();
     } else if (toBeCalculated.num1 === '' || 
         toBeCalculated.num1 === '-' || 
-        toBeCalculated.num1 === '+' || 
-        toBeCalculated.num1 === '*' ||
-        toBeCalculated.num1 === '/' || 
         toBeCalculated.num2 === '' || 
-        toBeCalculated.num2 === '-' || 
-        toBeCalculated.num2 === '+' || 
-        toBeCalculated.num2 === '*' ||
-        toBeCalculated.num2 === '/'){
+        toBeCalculated.num2 === '-'){
             alert('Re-enter calculation with the following format: number1 operator number2');
             clearCalc();
     } else {
@@ -162,6 +155,21 @@ function historyGet(){
     }).catch(function(err){
         console.log('error in GET /answer/hist:', err);
         alert('error getting calculation history');
+    });
+}
+
+function clearHist(){
+    //DELETE calculation history from server
+    $.ajax({
+        method: 'DELETE',
+        url: '/answer/hist'
+    }).then(function(response){
+        console.log('back from DELETE /answer/hist:', response);
+        //re-run function to display calc history on DOM
+
+    }).catch(function(err){
+        console.log('error in DELETE /answer/hist:', err);
+        alert('error deleting calculation history');
     });
 }
 
