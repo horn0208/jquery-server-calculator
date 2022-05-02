@@ -4,30 +4,36 @@ body {
 
 #calcBox {
     display:inline-block;
-    border-radius: 4px;
+    border-radius: 8px;
+    border-style: solid;
+    background-color: rgba(100, 148, 237, 0.244);
+    padding: 10px;
     margin: 8px;
-    height: 30px;
-    min-width: 180px;
+    height: 24px;
+    min-width: 188px;
     max-width: fit-content;
     vertical-align: middle;
-    background-color: cornflowerblue;
+    font-family: inherit;
+    font-size: 1.25em;
 }
 #clearButton {
     display:inline-block;
-    margin: 8px;
-    
+    vertical-align: middle;
+    margin: 0px;
+    background-color: #43AA8B;
+}
+#clearButton:hover {
+    background-color: #31c599;
 }
 .button-row {
     display: flex;
     margin-left: 8px;
-    width: 188px;
+    border-radius: 8px;
+    width: 200px;
     padding: 4px;
-    background-color: chocolate;
+    background-color: #577590;
     justify-content: space-between;
 }
-/* #inputs{
-    background-color: bisque;
-} */
 li {
     cursor: pointer;
     max-width: fit-content;
@@ -36,25 +42,41 @@ li {
 .operandButton,
 #submitCalcButton,
 #clearButton,
-#clearHistButton,
-#calcBox {
+#clearHistButton {
     font-family: inherit;
     font-size: 1.25em;
-    border-radius: 4px;
+    border-radius: 8px;
     padding: 10px;
+    cursor: pointer;
+    transition-duration: 0.3s; 
 }
 .numButton{
     flex-grow: 1;
-    background-color: lemonchiffon;
+    background-color: #F9C74F;
+    cursor: pointer;
+}
+.numButton:hover {
+    background-color: #ffd428;
 }
 .operandButton{
     flex-grow: 1;
-    background-color: rebeccapurple;
+    background-color: #F8961E;
+}
+.operandButton:hover {
+    background-color: #F3722C;
 }
 #submitCalcButton {
     flex-grow: 1.5;
-    background-color: aqua;
+    background-color: #F94144;
+}
+#submitCalcButton:hover {
+    background-color:#f3182e ;
 }
 #clearHistButton {
     margin: 8px;
+    font-size: 1em;
+    background-color: #43AA8B;
+}
+#clearHistButton:hover {
+    background-color: #31c599;
 }
