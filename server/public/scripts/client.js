@@ -24,10 +24,16 @@ let allInput = '';
 let numClickCount = 0;
 //counter to track whether operand was clicked (not including negative numbers)
 let operandCount = 0;
+//counter to track decimels
+let decimalCount = 0;
 
 function collectNums(){
     let newNum;
-    if(this.className === 'numButton'){
+    if (this.id ==='.' && decimalCount === 0){
+        //track how many times decimal has been clicked in current number, only allow one per number
+        decimalCount++;
+        newNum = this.id;
+    } else if(this.className === 'numButton' && this.id !== '.'){
         //track how many times numButton has been clicked in current calculation
         numClickCount++;
         //store number button id as newNum
@@ -40,6 +46,7 @@ function collectNums(){
         //if the button clicked was for an operand, add a space before and after and store as newNum
         newNum = ` ${this.id} `;
         operandCount++;
+        decimalCount = 0;
     } else {
         alert('Invalid input. Please try again.');
         clearCalc();
@@ -120,6 +127,7 @@ function clearCalc(){
     //reset numClickCount and operandCount to 0
     numClickCount = 0;
     operandCount = 0;
+    decimalCount = 0;
 }
 function answerGet(){
     console.log('in displayAnswer');
