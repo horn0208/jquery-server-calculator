@@ -12,7 +12,7 @@ app.use('/answer', router);
 //globals
 const calcHistory = []; //stores all previous calculations
 let answer;
-const port = 5001;
+const port = process.env.PORT || 5001;
 //spin up server
 app.listen(port,()=>{
     console.log('server up on:', port);
